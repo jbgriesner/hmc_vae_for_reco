@@ -34,8 +34,12 @@ def train_tune_test_split(clean_DIR, X, test_min_clicks):
     if os.path.exists(test_file):
         os.remove(test_file)
 
+    all_items = []
     with open(train_file, 'w') as train, open(tune_file, 'w') as tune, open(test_file, 'w') as test:
         user = 0
+        for row in tqdm(X):
+            if row.sum() < test_min_clicks:
+                all_items.extend(row.nonzero()[1])
         for row in tqdm(X):
             items = row.nonzero()[1]
             np.random.shuffle(items)
@@ -44,8 +48,10 @@ def train_tune_test_split(clean_DIR, X, test_min_clicks):
                 for item in splits[0]:
                         train.write(f"{user}\t{item}\n")
                 for item in splits[1]:
+                    if item in all_items:
                         tune.write(f"{user}\t{item}\n")
                 for item in splits[2]:
+                    if item in all_items:
                         test.write(f"{user}\t{item}\n")
             else:
                 for item in items:
