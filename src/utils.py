@@ -100,7 +100,7 @@ def split_train_test_proportion(data, test_prop=0.2):
         else:
             tr_list.append(group)
 
-        if i % 1000 == 0:
+        if i % 100 == 0:
             print("%d users sampled" % i)
             sys.stdout.flush()
 
