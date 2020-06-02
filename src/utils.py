@@ -3,6 +3,8 @@ import sys
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
+import glob
+import fileinput
 
 def concatenate_files(file, pattern):
     """
@@ -13,12 +15,8 @@ def concatenate_files(file, pattern):
         checkins_files = glob.glob(pattern)
         with open(file, 'w') as out_file:
             input_lines = fileinput.input(checkins_files)
-            prev_line = None
             for line in tqdm(input_lines):
-                if not fileinput.isfirstline():  # first lines are corrupted
-                    if prev_line is not None:    # last lines are corrupted
-                        out_file.write(prev_line)
-                    prev_line = line
+                out_file.write(line)
 
 def train_tune_test_split(clean_DIR, X, test_min_clicks):
     """
@@ -100,7 +98,7 @@ def split_train_test_proportion(data, test_prop=0.2):
         else:
             tr_list.append(group)
 
-        if i % 100 == 0:
+        if i % 1000 == 0:
             print("%d users sampled" % i)
             sys.stdout.flush()
 

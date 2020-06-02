@@ -6,3 +6,4 @@ data/raw/gowalla/checkins
 data/raw/gowalla/pois
 data/raw/foursquare/pois
 data/raw/ml-25m/ratings
+data/raw/ml-20m/ratings.csv
